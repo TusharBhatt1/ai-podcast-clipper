@@ -70,12 +70,19 @@ model User {
     clips            Clip[]
 }
 
+enum UploadFileStatus {
+    QUEUED
+    PROCESSING
+    PROCESSED
+    NO_CREDITS
+}
+
 model UploadedFile {
     id          String   @id @default(cuid())
     s3Key       String
     displayName String?
     uploaded    Boolean  @default(false)
-    status      String   @default("queued") //processing,processed or no credits
+    status      UploadFileStatus   @default(QUEUED)
     createdAt   DateTime @default(now())
     updatedAt   DateTime @updatedAt
     user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
