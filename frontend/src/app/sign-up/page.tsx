@@ -10,7 +10,7 @@ export default async function page() {
   if (session) redirect("/dashboard");
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-red-100">
+    <div className="flex min-h-screen items-center justify-center">
       <SingUpForm className="w-72 sm:w-96" />
     </div>
   );

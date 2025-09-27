@@ -1,7 +1,13 @@
 import "~/styles/globals.css";
 
+import { type Metadata } from "next";
 import { Geist } from "next/font/google";
-import { SessionProvider } from "next-auth/react";
+
+export const metadata: Metadata = {
+  title: "Podcast Clipper",
+  description: "In few just clicks, generate viral clips from long podcasts using AI",
+  icons: [{ rel: "icon", url: "/favicon.ico" }],
+};
 
 const geist = Geist({
   subsets: ["latin"],
@@ -13,9 +19,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
-      <body>
-        <SessionProvider>{children}</SessionProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
