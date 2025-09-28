@@ -12,7 +12,7 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { signInUser } from "~/lib/auth";
+import { signInUser } from "~/app/actions.ts/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { formSchema, type TAuthFormFieldsData } from "./sign-up-form";

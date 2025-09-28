@@ -4,13 +4,13 @@ import { db } from "~/server/db";
 import { ListObjectsCommand, S3Client } from "@aws-sdk/client-s3";
 import { auth } from "~/server/auth";
 
-export const helloWorld = inngest.createFunction(
+export const processVideo = inngest.createFunction(
   {
     id: "process-video",
     retries: 1,
     concurrency: {
       limit: 1,
-      key: "event.data.userid",
+      key: "event.data.userId",
     },
   },
   { event: "process-video-events" },
