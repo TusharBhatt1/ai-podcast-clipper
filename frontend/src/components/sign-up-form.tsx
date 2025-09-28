@@ -14,6 +14,7 @@ import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { signUpUser } from "~/app/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = z.object({
@@ -21,8 +22,8 @@ const formSchema = z.object({
   password: z.string().min(8).max(15),
 });
 
-export type TSingUpFormData = z.infer<typeof formSchema>;
-       
+export type TSignUpFormData = z.infer<typeof formSchema>;
+
 export function SingUpForm({
   className,
   ...props
@@ -31,9 +32,12 @@ export function SingUpForm({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TSingUpFormData>();
+  } = useForm<TSignUpFormData>({
+    resolver: zodResolver(formSchema),
+    reValidateMode:"onBlur",
+  });
 
-  async function onSubmit(values: TSingUpFormData) {
+  async function onSubmit(values: TSignUpFormData) {
     await signUpUser(values);
   }
 
@@ -58,7 +62,11 @@ export function SingUpForm({
                   {...register("email")}
                   required
                 />
-                {errors.email?.message}
+                {errors.email && (
+                  <p className="text-destructive text-sm">
+                    {errors.email.message}
+                  </p>
+                )}{" "}
               </div>
               <div className="grid gap-3">
                 <Label htmlFor="password">Password</Label>
@@ -68,21 +76,19 @@ export function SingUpForm({
                   {...register("password")}
                   required
                 />
-              </div>
-              <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full">
-                  Login
-                </Button>
+
+                {errors.password && (
+                  <p className="text-destructive text-sm">
+                    {errors.password?.message}
+                  </p>
+                )}
               </div>
             </div>
-            {errors.email && (
-              <p className="text-destructive text-sm">{errors.email.message}</p>
-            )}
-            {errors.password && (
-              <p className="text-destructive text-sm">
-                {errors.password?.message}
-              </p>
-            )}
+            <div className="mt-2 flex flex-col gap-3">
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+            </div>
 
             <div className="mt-4 text-center text-sm">
               Have an account?{" "}
