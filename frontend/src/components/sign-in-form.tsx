@@ -12,10 +12,11 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { signInUser} from "~/lib/auth/auth";
+import { signInUser } from "~/lib/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { formSchema, type TAuthFormFieldsData } from "./sign-up-form";
+import { useRouter } from "next/navigation";
 
 export function SignInForm({
   className,
@@ -29,9 +30,11 @@ export function SignInForm({
     resolver: zodResolver(formSchema),
   });
 
+  const router = useRouter();
   async function onSubmit(values: TAuthFormFieldsData) {
     try {
       await signInUser(values);
+      router.push("/dashboard");
     } catch {
       toast.error("SOMETHING WENT WRONG");
     }

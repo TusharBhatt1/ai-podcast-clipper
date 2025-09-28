@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import React from "react";
+import NavHeader from "~/components/nav-header";
 import { auth } from "~/server/auth";
+import { db } from "~/server/db";
 
 export default async function layout({
   children,
@@ -11,5 +13,16 @@ export default async function layout({
 
   if (!session?.user.id) redirect("/sign-in");
 
-  return <div>{children}</div>;
+  const user = await db.user.findUniqueOrThrow({
+    where: {
+      id: session.user.id,
+    },
+  });
+
+  return (
+    <div>
+      <NavHeader user={user} />
+      {children}
+    </div>
+  );
 }

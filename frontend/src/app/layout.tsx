@@ -3,6 +3,8 @@ import "~/styles/globals.css";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import { Toaster } from "~/components/ui/sonner";
+import { auth } from "~/server/auth";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Podcast Clipper",
@@ -16,7 +18,7 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
