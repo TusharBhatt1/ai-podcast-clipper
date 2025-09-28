@@ -13,32 +13,41 @@ import { Label } from "~/components/ui/label";
 import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { signUpUser } from "~/app/auth";
+import { signUpUser } from "~/lib/auth/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
+import { redirect } from "next/navigation";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const formSchema = z.object({
+export const formSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
   password: z.string().min(8).max(15),
 });
 
-export type TSignUpFormData = z.infer<typeof formSchema>;
+export type TAuthFormFieldsData = z.infer<typeof formSchema>;
 
-export function SingUpForm({
+export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm<TSignUpFormData>({
+    formState: { errors, isSubmitting },
+  } = useForm<TAuthFormFieldsData>({
     resolver: zodResolver(formSchema),
-    reValidateMode:"onBlur",
   });
 
-  async function onSubmit(values: TSignUpFormData) {
-    await signUpUser(values);
+  async function onSubmit(values: TAuthFormFieldsData) {
+    try {
+      const result = await signUpUser(values);
+      if (result.success) {
+        toast.error(result.message);
+        redirect("/");
+      } else toast.success(result.message);
+    } catch {
+      toast.error("SOMETHING WENT WRONG");
+    } finally {
+    }
   }
 
   return (
@@ -61,6 +70,7 @@ export function SingUpForm({
                   placeholder="m@example.com"
                   {...register("email")}
                   required
+                  disabled={isSubmitting}
                 />
                 {errors.email && (
                   <p className="text-destructive text-sm">
@@ -75,6 +85,7 @@ export function SingUpForm({
                   type="password"
                   {...register("password")}
                   required
+                  disabled={isSubmitting}
                 />
 
                 {errors.password && (
@@ -85,8 +96,8 @@ export function SingUpForm({
               </div>
             </div>
             <div className="mt-2 flex flex-col gap-3">
-              <Button type="submit" className="w-full">
-                Login
+              <Button type="submit" className="w-full" disabled={isSubmitting}>
+                Create
               </Button>
             </div>
 

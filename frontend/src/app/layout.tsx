@@ -2,10 +2,12 @@ import "~/styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
+import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Podcast Clipper",
-  description: "In few just clicks, generate viral clips from long podcasts using AI",
+  description:
+    "In few just clicks, generate viral clips from long podcasts using AI",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
@@ -19,7 +21,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }
