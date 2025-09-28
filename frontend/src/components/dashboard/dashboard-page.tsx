@@ -44,7 +44,7 @@ export default async function DashboardPage() {
     s3Key: f.s3Key,
     status: f.status,
     name: f.displayName ?? "UNNAMED",
-    clipCount: f._count.clips,
+    clipsCount: f._count.clips,
     createdAt: f.createdAt,
   }));
 

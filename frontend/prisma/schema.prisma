@@ -75,6 +75,7 @@ enum UploadFileStatus {
     PROCESSING
     PROCESSED
     NO_CREDITS
+    FAILED
 }
 
 model UploadedFile {

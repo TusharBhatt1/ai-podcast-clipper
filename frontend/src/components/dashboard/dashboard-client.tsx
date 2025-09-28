@@ -7,7 +7,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Dropzone, { type DropzoneState } from "shadcn-dropzone";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -18,16 +17,24 @@ import { Loader2Icon, UploadCloud } from "lucide-react";
 import {
   generateUploadUrl,
   uploadFileStatusAndProcess,
-  uploadFileToDBAndProcess,
 } from "~/app/actions.ts/s3";
 import { toast } from "sonner";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "../ui/table";
+import { Badge } from "../ui/badge";
 
 interface FormattedUploadedFile {
   id: string;
   s3Key: string;
   status: string;
   name: string;
-  clipCount: number;
+  clipsCount: number;
   createdAt: Date;
 }
 
@@ -65,9 +72,7 @@ export default function DashboardClient({
         });
 
         await uploadFileStatusAndProcess({
-          s3Key,
           uploadedFileId,
-          displayName: file?.name ?? "unknown.mp4",
         });
         toast.success("Video uploaded successfully, under processing...");
       }
@@ -112,7 +117,7 @@ export default function DashboardClient({
                 disabled={uploading}
                 maxFiles={1}
               >
-                {(dropzone: DropzoneState) => (
+                {() => (
                   <>
                     <div className="flex flex-col items-center justify-center space-y-4 rounded-lg p-10 text-center">
                       <UploadCloud className="text-muted-foreground h-12 w-12" />
@@ -160,6 +165,79 @@ export default function DashboardClient({
               </div>
             </CardFooter>
           </Card>
+
+          {uploadedFiles.length > 0 && (
+            <div className="pt-6">
+              <div className="mb-2 flex items-center justify-between">
+                <h3 className="text-md mb-2 font-medium">Queue status</h3>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  // onClick={handleRefresh}
+                  // disabled={refreshing}
+                >
+                  Rede
+                  {/* {refreshing && (
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      )}
+                      Refresh */}
+                </Button>
+              </div>
+              <div className="max-h-[300px] overflow-auto rounded-md border">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>File</TableHead>
+                      <TableHead>Uploaded</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Clips created</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {uploadedFiles.map((item) => (
+                      <TableRow key={item.id}>
+                        <TableCell className="max-w-xs truncate font-medium">
+                          {item.name}
+                        </TableCell>
+                        <TableCell className="text-muted-foreground text-sm">
+                          {new Date(item.createdAt).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell>
+                          {item.status === "queued" && (
+                            <Badge variant="outline">Queued</Badge>
+                          )}
+                          {item.status === "processing" && (
+                            <Badge variant="outline">Processing</Badge>
+                          )}
+                          {item.status === "processed" && (
+                            <Badge variant="outline">Processed</Badge>
+                          )}
+                          {item.status === "no credits" && (
+                            <Badge variant="destructive">No credits</Badge>
+                          )}
+                          {item.status === "failed" && (
+                            <Badge variant="destructive">Failed</Badge>
+                          )}
+                        </TableCell>
+                        <TableCell>
+                          {item.clipsCount > 0 ? (
+                            <span>
+                              {item.clipsCount} clip
+                              {item.clipsCount !== 1 ? "s" : ""}
+                            </span>
+                          ) : (
+                            <span className="text-muted-foreground">
+                              No clips yet
+                            </span>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          )}
         </TabsContent>
         <TabsContent value="my-uploads">Change your password here.</TabsContent>
       </Tabs>
