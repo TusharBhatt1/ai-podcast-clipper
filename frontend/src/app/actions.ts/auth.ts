@@ -3,7 +3,8 @@ import type { TAuthFormFieldsData } from "~/components/sign-up-form";
 import { signIn } from "~/server/auth";
 import { db } from "~/server/db";
 import bcrypt from "bcrypt";
-// import stripe, { Stripe } from "stripe";
+import Stripe from "stripe";
+import { env } from "~/env";
 interface AuthReturnValues {
   success: boolean;
   message: string;
@@ -32,17 +33,17 @@ export async function signUpUser(
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
-    // const stripe = new Stripe("TODO:STRIPE KEY");
+    const stripe = new Stripe(env.STRIPE_SECRET_KEY);
 
-    // const stripeCustomer = await stripe.customers.create({
-    //   email: data.email,
-    // });
+    const stripeCustomer = await stripe.customers.create({
+      email: data.email,
+    });
 
     await db.user.create({
       data: {
         email: data.email,
         password: hashedPassword,
-        // stripeCustomerId: stripeCustomer.id,
+        stripeCustomerId: stripeCustomer.id,
       },
     });
 

@@ -16,6 +16,7 @@ import { useForm } from "react-hook-form";
 import { signUpUser } from "~/app/actions.ts/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export const formSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
@@ -36,11 +37,14 @@ export function SignUpForm({
     resolver: zodResolver(formSchema),
   });
 
+  const router=useRouter()
+
   async function onSubmit(values: TAuthFormFieldsData) {
     try {
       const result = await signUpUser(values);
       if (result.success) {
         toast.error(result.message);
+        router.push("/dashboard")
       } else toast.success(result.message);
     } catch {
       toast.error("SOMETHING WENT WRONG");

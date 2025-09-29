@@ -1,7 +1,7 @@
 "use client";
 import type { Clip } from "@prisma/client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import Dropzone from "shadcn-dropzone";
@@ -28,7 +28,7 @@ import {
   TableRow,
 } from "../ui/table";
 import { Badge } from "../ui/badge";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ClipsDisplay from "./clips-display";
 
 interface FormattedUploadedFile {
@@ -52,6 +52,22 @@ export default function DashboardClient({
 
   const [refreshing, setRefreshing] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const paymentStatus = searchParams.get("paymentStatus");
+    if (paymentStatus) {
+      if (paymentStatus === "true")
+        toast.success("PAYMENT SUCCESSFUL, CREDITS ADDED.");
+      else
+        toast.error(
+          "PAYMENT FAILED WITH NO BALANCE DEDUCTED, CAN YOU TRY AGAIN.",
+        );
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.delete("paymentStatus");
+      router.replace(`?${newParams.toString()}`, { scroll: false });
+    }
+  }, [router, searchParams]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
