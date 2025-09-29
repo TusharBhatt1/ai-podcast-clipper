@@ -13,10 +13,11 @@ import { Label } from "~/components/ui/label";
 import Link from "next/link";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
-import { signUpUser } from "~/app/actions.ts/auth";
+import { signInUser, signUpUser } from "~/app/actions.ts/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { signIn } from "~/server/auth";
 
 export const formSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
@@ -37,15 +38,16 @@ export function SignUpForm({
     resolver: zodResolver(formSchema),
   });
 
-  const router=useRouter()
+  const router = useRouter();
 
   async function onSubmit(values: TAuthFormFieldsData) {
     try {
       const result = await signUpUser(values);
       if (result.success) {
-        toast.error(result.message);
-        router.push("/dashboard")
-      } else toast.success(result.message);
+        toast.success(result.message);
+        await signInUser(values);
+        router.push("/dashboard");
+      } else toast.error(result.message);
     } catch {
       toast.error("SOMETHING WENT WRONG");
     } finally {
