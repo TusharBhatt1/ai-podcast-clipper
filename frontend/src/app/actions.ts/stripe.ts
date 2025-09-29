@@ -38,8 +38,8 @@ export async function getCheckoutSession(priceId: PriceId) {
       ],
       customer: user.stripeCustomerId,
       mode: "payment",
-      success_url: `${env.NEXT_PUBLIC_BASE_URL}?paymentStatus=true`,
-      cancel_url: `${env.NEXT_PUBLIC_BASE_URL}/paymentStatus=false`,
+      success_url: `${env.NEXT_PUBLIC_BASE_URL}/dashboard?paymentStatus=true`,
+      cancel_url: `${env.NEXT_PUBLIC_BASE_URL}/dashboard?paymentStatus=false`,
     });
 
     if (!url)
