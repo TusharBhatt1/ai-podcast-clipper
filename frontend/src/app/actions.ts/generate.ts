@@ -1,5 +1,9 @@
 "use server";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import {
+  GetObjectCommand,
+  PutObjectCommand,
+  S3Client,
+} from "@aws-sdk/client-s3";
 import { env } from "~/env";
 import { auth } from "~/server/auth";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
@@ -113,4 +117,48 @@ export async function uploadFileStatusAndProcess({
     console.log("SOMETHING WENT WRONG: ", e);
   }
   return;
+}
+
+export async function getClipUrl({
+  clipId,
+}: {
+  clipId: string;
+}): Promise<{ success: boolean; url: string | null; message?: string }> {
+  try {
+    const session = await auth();
+
+    if (!session?.user.id) {
+      return { success: false, url: null };
+    }
+
+    const clip = await db.clip.findUniqueOrThrow({
+      where: {
+        id: clipId,
+        userId: session.user.id,
+      },
+    });
+
+    const s3Client = new S3Client({
+      region: env.AWS_REGION,
+      credentials: {
+        accessKeyId: env.AWS_ACCESS_KEY_ID,
+        secretAccessKey: env.AWS_SECRET_KEY,
+      },
+    });
+
+    const command = new GetObjectCommand({
+      Bucket: env.S3_BUCKET_NAME,
+      Key: clip.s3Key,
+    });
+    const signedUrl = await getSignedUrl(s3Client, command, { expiresIn: 600 });
+
+    return { success: true, url: signedUrl };
+  } catch (e) {
+    console.log("SOMETHING WENT WRONG WHILE GETTING CLIP URL: ", e);
+    return {
+      success: false,
+      url: null,
+      message: "SOMETHING WENT WRONG WHILE GETTING CLIP URL",
+    };
+  }
 }

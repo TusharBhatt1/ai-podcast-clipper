@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { Button } from "../ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
-import Dropzone, { type DropzoneState } from "shadcn-dropzone";
+import Dropzone from "shadcn-dropzone";
 import {
   Card,
   CardContent,
@@ -13,11 +13,11 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Loader2Icon, UploadCloud } from "lucide-react";
+import { Loader2, Loader2Icon, UploadCloud } from "lucide-react";
 import {
   generateUploadUrl,
   uploadFileStatusAndProcess,
-} from "~/app/actions.ts/s3";
+} from "~/app/actions.ts/generate";
 import { toast } from "sonner";
 import {
   Table,
@@ -28,6 +28,8 @@ import {
   TableRow,
 } from "../ui/table";
 import { Badge } from "../ui/badge";
+import { useRouter } from "next/navigation";
+import ClipsDisplay from "./clips-display";
 
 interface FormattedUploadedFile {
   id: string;
@@ -47,6 +49,15 @@ export default function DashboardClient({
 }) {
   const [files, setFiles] = useState<File[]>([]);
   const [uploading, setUploading] = useState<boolean>(false);
+
+  const [refreshing, setRefreshing] = useState(false);
+  const router = useRouter();
+
+  const handleRefresh = async () => {
+    setRefreshing(true);
+    router.refresh();
+    setTimeout(() => setRefreshing(false), 600);
+  };
 
   const handleDrop = (acceptedFiles: File[]) => {
     setFiles(acceptedFiles);
@@ -101,7 +112,7 @@ export default function DashboardClient({
       <Tabs defaultValue="upload">
         <TabsList className="w-full">
           <TabsTrigger value="upload">Upload</TabsTrigger>
-          <TabsTrigger value="my-uploads">My Uploads</TabsTrigger>
+          <TabsTrigger value="my-clips">My Clips</TabsTrigger>
         </TabsList>
         <TabsContent value="upload">
           <Card>
@@ -173,14 +184,14 @@ export default function DashboardClient({
                 <Button
                   variant="outline"
                   size="sm"
-                  // onClick={handleRefresh}
-                  // disabled={refreshing}
+                  onClick={handleRefresh}
+                  disabled={refreshing}
                 >
                   Rede
-                  {/* {refreshing && (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      )}
-                      Refresh */}
+                  {refreshing && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  Refresh
                 </Button>
               </div>
               <div className="max-h-[300px] overflow-auto rounded-md border">
@@ -239,7 +250,19 @@ export default function DashboardClient({
             </div>
           )}
         </TabsContent>
-        <TabsContent value="my-uploads">Change your password here.</TabsContent>
+        <TabsContent value="my-clips">
+          <Card>
+            <CardHeader>
+              <CardTitle>My Clips</CardTitle>
+              <CardDescription>
+                View and manage your clips. Processing may take some time.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ClipsDisplay clips={clips} />
+            </CardContent>
+          </Card>
+        </TabsContent>
       </Tabs>
     </div>
   );
