@@ -35,7 +35,7 @@ export default function BillingTable() {
   return (
     <div>
       <p className="mt-2 mb-4 px-2 text-lg font-bold">
-        A list of your recent invoices
+        A list of your invoices
       </p>
 
       {loading ? (
