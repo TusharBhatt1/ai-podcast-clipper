@@ -25,7 +25,7 @@ export async function generateUploadUrl({
   try {
     const session = await auth();
 
-    if (!session) throw new Error("UNAUTORIZED");
+    if (!session) throw new Error("UNAUTHORIZED");
 
     const s3Client = new S3Client({
       region: env.AWS_REGION,
