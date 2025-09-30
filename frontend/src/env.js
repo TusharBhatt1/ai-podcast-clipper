@@ -18,7 +18,7 @@ export const env = createEnv({
       .enum(["development", "test", "production"])
       .default("development"),
       AWS_ACCESS_KEY_ID:z.string(),
-    AWS_SECRET_KEY:z.string(),
+    AWS_SECRET_KEY_ID:z.string(),
     AWS_REGION:z.string(),
     S3_BUCKET_NAME:z.string(),
     STRIPE_SECRET_KEY:z.string(),
@@ -48,7 +48,7 @@ export const env = createEnv({
     PROCESS_VIDEO_ENDPOINT:process.env.PROCESS_VIDEO_ENDPOINT,
     PROCESS_VIDEO_ENDPOINT_AUTH:process.env.PROCESS_VIDEO_ENDPOINT_AUTH,
     AWS_ACCESS_KEY_ID:process.env.AWS_ACCESS_KEY_ID,
-    AWS_SECRET_KEY:process.env.AWS_SECRET_KEY,
+    AWS_SECRET_KEY_ID:process.env.AWS_SECRET_KEY_ID,
     AWS_REGION:process.env.AWS_REGION,
     S3_BUCKET_NAME:process.env.S3_BUCKET_NAME,
     STRIPE_SECRET_KEY:process.env.STRIPE_SECRET_KEY,

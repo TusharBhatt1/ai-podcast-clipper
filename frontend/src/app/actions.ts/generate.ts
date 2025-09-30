@@ -31,7 +31,7 @@ export async function generateUploadUrl({
       region: env.AWS_REGION,
       credentials: {
         accessKeyId: env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: env.AWS_SECRET_KEY,
+        secretAccessKey: env.AWS_SECRET_KEY_ID,
       },
     });
 
@@ -142,7 +142,7 @@ export async function getClipUrl({
       region: env.AWS_REGION,
       credentials: {
         accessKeyId: env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: env.AWS_SECRET_KEY,
+        secretAccessKey: env.AWS_SECRET_KEY_ID,
       },
     });
 
