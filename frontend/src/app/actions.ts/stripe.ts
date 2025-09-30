@@ -19,7 +19,7 @@ export async function getCheckoutSession(priceId: PriceId) {
 
     if (priceId === "small") stripePriceId = env.STRIPE_SMALL_PRICE_ID;
     if (priceId === "medium") stripePriceId = env.STRIPE_MEDIUM_PRICE_ID;
-    else stripePriceId = env.STRIPE_LARGE_PRICE_ID;
+    if (priceId === "large") stripePriceId = env.STRIPE_LARGE_PRICE_ID;
 
     const user = await db.user.findUniqueOrThrow({
       where: {
@@ -52,4 +52,25 @@ export async function getCheckoutSession(priceId: PriceId) {
   } finally {
     if (redirectUrl) redirect(redirectUrl);
   }
+}
+
+export async function getUserBillings() {
+  const session = await auth();
+
+  if (!session?.user.id || !session.user.email) throw new Error("UNAUTHORIZED");
+
+  const user = await db.user.findUniqueOrThrow({
+    where: {
+      id: session.user.id,
+      email: session.user.email,
+    },
+  });
+
+  if (!user.stripeCustomerId) throw new Error("STRIPE CUSTOMER ID NOT FOUND");
+
+  const billings = await stripe.paymentIntents.list({
+    customer: user.stripeCustomerId,
+  });
+
+  return billings.data;
 }

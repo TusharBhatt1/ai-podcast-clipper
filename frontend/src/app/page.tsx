@@ -9,15 +9,15 @@ export default async function HomePage() {
 
   const userLoggedIn = session?.user.id;
   return (
-    <div className="bg-muted flex h-screen flex-col items-center justify-center">
-      <header className="fixed top-0 z-10 flex w-full items-center justify-between border-b bg-white px-4">
+    <div className="bg-muted flex min-h-screen flex-col items-center justify-center">
+      <header className="fixed top-0 z-10 flex w-full items-center justify-between border-b bg-white p-2 sm:p-0 sm:px-3">
         <CreatedBy />
         {userLoggedIn ? (
           <Link href={"/dashboard"} className="flex">
             <Button>
               <Image
                 src={"/logo.svg"}
-                alt="PodClip"
+                alt="PodClip.ai"
                 height={20}
                 width={20}
               />
@@ -29,7 +29,7 @@ export default async function HomePage() {
             <Button>
               <Image
                 src={"/logo.svg"}
-                alt="PodClip"
+                alt="PodClip.ai"
                 height={20}
                 width={20}
               />
@@ -38,7 +38,13 @@ export default async function HomePage() {
           </Link>
         )}
       </header>
-      <Image src={"/ss.png"} height={1000} width={900} alt="PodClip" />
+      <Image
+        src={"/ss.png"}
+        height={1000}
+        width={900}
+        alt="PodClip.ai"
+        className="lg:pt-28"
+      />
     </div>
   );
 }
