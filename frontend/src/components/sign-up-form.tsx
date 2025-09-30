@@ -17,7 +17,6 @@ import { signInUser, signUpUser } from "~/app/actions.ts/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { signIn } from "~/server/auth";
 
 export const formSchema = z.object({
   email: z.string().email("Please enter a valid email address."),

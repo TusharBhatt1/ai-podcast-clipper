@@ -3,8 +3,6 @@ import "~/styles/globals.css";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import { Toaster } from "~/components/ui/sonner";
-import { auth } from "~/server/auth";
-import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Podcast Clipper",
