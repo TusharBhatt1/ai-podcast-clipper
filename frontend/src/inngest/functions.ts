@@ -2,7 +2,6 @@ import { env } from "~/env";
 import { inngest } from "./client";
 import { db } from "~/server/db";
 import { ListObjectsCommand, S3Client } from "@aws-sdk/client-s3";
-import { auth } from "~/server/auth";
 
 export const processVideo = inngest.createFunction(
   {
@@ -17,12 +16,6 @@ export const processVideo = inngest.createFunction(
   async ({ event, step }) => {
     const { uploadedFileId } = event.data as { uploadedFileId: string };
     try {
-      const session = await auth();
-
-      if (!session?.user.id) {
-        throw new Error("UNAUTHORIZED");
-      }
-
       const { userId, credits, s3Key } = await step.run(
         "check-credits",
         async () => {
@@ -127,7 +120,8 @@ export const processVideo = inngest.createFunction(
           },
         });
       });
-    } catch {
+    } catch (e) {
+      console.log(e);
       await db.uploadedFile.update({
         where: {
           id: uploadedFileId,
