@@ -11,7 +11,7 @@ export default async function layout({
 }) {
   const session = await auth();
 
-  if (!session?.user.id) redirect("/sign-in");
+  if (!session?.user.id) redirect("/sign-up");
 
   const user = await db.user.findUniqueOrThrow({
     where: {

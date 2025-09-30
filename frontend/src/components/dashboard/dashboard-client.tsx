@@ -118,7 +118,8 @@ export default function DashboardClient({
             Podcast Clipper
           </h1>
           <p className="text-muted-foreground">
-            Upload your podcast and get AI-generated clips instantly
+            Upload your podcast and get AI-generated clips that can go viral
+            instantly.
           </p>
         </div>
         <Link href="/dashboard/billing">

@@ -4,7 +4,6 @@ import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
@@ -17,6 +16,7 @@ import { signInUser, signUpUser } from "~/app/actions.ts/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export const formSchema = z.object({
   email: z.string().email("Please enter a valid email address."),
@@ -57,10 +57,8 @@ export function SignUpForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Sign Up</CardTitle>
-          <CardDescription>
-            Enter your email below to create your account
-          </CardDescription>
+        <Image src={"/logo-with-name.svg"} alt="PODCAST CLIPPER" height={100} width={200} className="mb-4 mx-auto"/>
+          <CardTitle className="text-lg text-center">Create new account</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -70,7 +68,7 @@ export function SignUpForm({
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="example@example.com"
                   {...register("email")}
                   required
                   disabled={isSubmitting}

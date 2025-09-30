@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: "Podcast Clipper",
   description:
     "In few just clicks, generate viral clips from long podcasts using AI",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+  icons: [{ rel: "icon", url: "/logo.svg" }],
 };
 
 const geist = Geist({

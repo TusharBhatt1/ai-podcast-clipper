@@ -4,7 +4,6 @@ import { Button } from "~/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
@@ -17,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { formSchema, type TAuthFormFieldsData } from "./sign-up-form";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export function SignInForm({
   className,
@@ -44,10 +44,8 @@ export function SignInForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Sign In</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
+          <Image src={"/logo-with-name.svg"} alt="PODCAST CLIPPER" height={100} width={200} className="mb-4 mx-auto"/>
+          <CardTitle className="text-center text-lg">Welcome back</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -57,7 +55,7 @@ export function SignInForm({
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="example@example.com"
                   {...register("email")}
                   required
                   disabled={isSubmitting}
