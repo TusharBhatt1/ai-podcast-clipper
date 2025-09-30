@@ -94,8 +94,11 @@ export default function DashboardClient({
 
       if (success && s3Key && signedUrl && uploadedFileId) {
         await fetch(signedUrl, {
-          method: "POST",
+          method: "PUT",
           body: file,
+          headers: {
+            "Content-Type": file.type,
+          },
         });
 
         await uploadFileStatusAndProcess({
@@ -204,7 +207,6 @@ export default function DashboardClient({
                   onClick={handleRefresh}
                   disabled={refreshing}
                 >
-                  Rede
                   {refreshing && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
