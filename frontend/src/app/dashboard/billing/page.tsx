@@ -4,6 +4,7 @@ import type { VariantProps } from "class-variance-authority";
 import { ArrowLeftIcon, CheckIcon } from "lucide-react";
 import Link from "next/link";
 import { getCheckoutSession } from "~/app/actions.ts/stripe";
+import BillingTable from "~/components/dashboard/billing/billing-table";
 
 import { Button, type buttonVariants } from "~/components/ui/button";
 import {
@@ -64,7 +65,6 @@ const plans: PricingPlan[] = [
 ];
 
 function PricingCard({ plan }: { plan: PricingPlan }) {
-  
   const handleCheckout = async (priceId: PriceId) => {
     await getCheckoutSession(priceId);
   };
@@ -155,6 +155,7 @@ export default function BillingPage() {
           <li>All packages are one-time purchases (not subscription)</li>
         </ul>
       </div>
+      <BillingTable />
     </div>
   );
 }

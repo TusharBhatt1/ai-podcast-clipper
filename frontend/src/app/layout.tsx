@@ -5,7 +5,7 @@ import { Geist } from "next/font/google";
 import { Toaster } from "~/components/ui/sonner";
 
 export const metadata: Metadata = {
-  title: "Podcast Clipper",
+  title: "PodClip.ai",
   description:
     "In few just clicks, generate viral clips from long podcasts using AI",
   icons: [{ rel: "icon", url: "/logo.svg" }],

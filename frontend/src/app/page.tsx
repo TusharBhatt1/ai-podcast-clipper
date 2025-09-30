@@ -17,7 +17,7 @@ export default async function HomePage() {
             <Button>
               <Image
                 src={"/logo.svg"}
-                alt="PODCAST CLIPPER"
+                alt="PodClip"
                 height={20}
                 width={20}
               />
@@ -29,7 +29,7 @@ export default async function HomePage() {
             <Button>
               <Image
                 src={"/logo.svg"}
-                alt="PODCAST CLIPPER"
+                alt="PodClip"
                 height={20}
                 width={20}
               />
@@ -38,7 +38,7 @@ export default async function HomePage() {
           </Link>
         )}
       </header>
-      <Image src={"/ss.png"} height={1000} width={900} alt="PODCAST CLIPPER" />
+      <Image src={"/ss.png"} height={1000} width={900} alt="PodClip" />
     </div>
   );
 }

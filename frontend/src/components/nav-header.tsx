@@ -21,8 +21,8 @@ const NavHeader = ({ user }: { user: User }) => {
     <header className="bg-background sticky top-0 z-10 flex justify-center border-b">
       <div className="container flex h-16 items-center justify-between px-2 xs:px-4 py-2">
         <Link href="/dashboard" className="flex items-center">
-          <Image src={"/logo-with-name.svg"} alt="Podcast clipper" className="sm:block hidden" height={200} width={200}/>
-          <Image src={"/logo.svg"} alt="Podcast clipper" className="sm:hidden block" height={40} width={40}/>
+          <Image src={"/logo-with-name.svg"} alt="PodClip" className="sm:block hidden" height={200} width={200}/>
+          <Image src={"/logo.svg"} alt="PodClip" className="sm:hidden block" height={40} width={40}/>
         </Link>
 
         <div className="flex items-center gap-4">

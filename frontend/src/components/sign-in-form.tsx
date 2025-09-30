@@ -44,7 +44,7 @@ export function SignInForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <Image src={"/logo-with-name.svg"} alt="PODCAST CLIPPER" height={100} width={200} className="mb-4 mx-auto"/>
+          <Image src={"/logo-with-name.svg"} alt="PodClip" height={100} width={200} className="mb-4 mx-auto"/>
           <CardTitle className="text-center text-lg">Welcome back</CardTitle>
         </CardHeader>
         <CardContent>
