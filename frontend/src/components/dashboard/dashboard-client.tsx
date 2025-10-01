@@ -1,5 +1,5 @@
 "use client";
-import type { Clip } from "@prisma/client";
+import type { Clip, UploadFileStatus } from "@prisma/client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
@@ -31,14 +31,7 @@ import { Badge } from "../ui/badge";
 import { useRouter, useSearchParams } from "next/navigation";
 import ClipsDisplay from "./clips-display";
 
-enum UploadFileStatus {
-  QUEUED,
-  PROCESSING,
-  PROCESSED,
-  NO_CREDITS,
-  FAILED,
-}
-interface FormattedUploadedFile {
+export interface FormattedUploadedFile {
   id: string;
   s3Key: string;
   status: UploadFileStatus;
@@ -240,19 +233,19 @@ export default function DashboardClient({
                           {new Date(item.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell>
-                          {item.status === UploadFileStatus.QUEUED && (
+                          {item.status === "QUEUED" && (
                             <Badge variant="outline">Queued</Badge>
                           )}
-                          {item.status === UploadFileStatus.PROCESSING && (
+                          {item.status === "PROCESSING" && (
                             <Badge variant="outline">Processing</Badge>
                           )}
-                          {item.status === UploadFileStatus.PROCESSED && (
+                          {item.status === "PROCESSED" && (
                             <Badge variant="outline">Processed</Badge>
                           )}
-                          {item.status === UploadFileStatus.NO_CREDITS && (
+                          {item.status === "QUEUED" && (
                             <Badge variant="destructive">No credits</Badge>
                           )}
-                          {item.status === UploadFileStatus.FAILED && (
+                          {item.status === "FAILED" && (
                             <Badge variant="destructive">Failed</Badge>
                           )}
                         </TableCell>

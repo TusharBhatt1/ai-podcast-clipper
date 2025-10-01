@@ -2,7 +2,9 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import DashboardClient from "./dashboard-client";
+import DashboardClient, {
+  type FormattedUploadedFile,
+} from "./dashboard-client";
 
 export default async function DashboardPage() {
   const session = await auth();
