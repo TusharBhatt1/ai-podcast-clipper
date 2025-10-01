@@ -116,7 +116,6 @@ export async function uploadFileStatusAndProcess({
   } catch (e) {
     console.log("SOMETHING WENT WRONG: ", e);
   }
-  return;
 }
 
 export async function getClipUrl({
