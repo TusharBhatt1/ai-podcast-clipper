@@ -31,10 +31,17 @@ import { Badge } from "../ui/badge";
 import { useRouter, useSearchParams } from "next/navigation";
 import ClipsDisplay from "./clips-display";
 
+enum UploadFileStatus {
+  "QUEUED",
+  "PROCESSING",
+  "PROCESSED",
+  "NO_CREDITS",
+  "FAILED",
+}
 interface FormattedUploadedFile {
   id: string;
   s3Key: string;
-  status: string;
+  status: UploadFileStatus;
   name: string;
   clipsCount: number;
   createdAt: Date;
@@ -233,19 +240,19 @@ export default function DashboardClient({
                           {new Date(item.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell>
-                          {item.status === "queued" && (
+                          {item.status === UploadFileStatus.QUEUED && (
                             <Badge variant="outline">Queued</Badge>
                           )}
-                          {item.status === "processing" && (
+                          {item.status === UploadFileStatus.PROCESSING && (
                             <Badge variant="outline">Processing</Badge>
                           )}
-                          {item.status === "processed" && (
+                          {item.status === UploadFileStatus.PROCESSED && (
                             <Badge variant="outline">Processed</Badge>
                           )}
-                          {item.status === "no credits" && (
+                          {item.status === UploadFileStatus.NO_CREDITS && (
                             <Badge variant="destructive">No credits</Badge>
                           )}
-                          {item.status === "failed" && (
+                          {item.status === UploadFileStatus.FAILED && (
                             <Badge variant="destructive">Failed</Badge>
                           )}
                         </TableCell>
