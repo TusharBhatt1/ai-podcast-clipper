@@ -32,11 +32,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ClipsDisplay from "./clips-display";
 
 enum UploadFileStatus {
-  "QUEUED",
-  "PROCESSING",
-  "PROCESSED",
-  "NO_CREDITS",
-  "FAILED",
+  QUEUED,
+  PROCESSING,
+  PROCESSED,
+  NO_CREDITS,
+  FAILED,
 }
 interface FormattedUploadedFile {
   id: string;
